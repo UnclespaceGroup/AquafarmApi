@@ -1,0 +1,35 @@
+﻿@model IEnumerable<AquafarmApi.Models.Purchase.Purchase>
+@{
+    ViewBag.Title = "TestDb";
+}
+<button class="btn btn-primary" id="down">Загрузить</button>
+
+<table class="table">
+    <tbody>
+        @foreach(AquafarmApi.Models.Purchase.Purchase t in Model)
+        {
+        <tr>
+            <td>
+                @t.id
+            </td>
+            <td>
+                @t.name
+            </td>
+            <td>
+                @t.phone
+            </td>
+            <td>
+                @t.Email
+            </td>
+            <td>
+                <button class="btn btn-primary" id="del" data-id=@t.id >Удалить</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<form class="form-group-lg">
+    <input id="name" class="input-lg" />
+    <button id="add" class="btn btn-primary">Добавить</button>
+</form>

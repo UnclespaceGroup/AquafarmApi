@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Имя приложения", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Домашняя страница", "Index", "Home", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Таблица", "TestDb", "Home", new { area = "" }, null)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+<script type="text/javascript">
+    $(function () {
+        //$('#submit').click(function (e) {
+        //    // e.preventDefault();
+        //    var data = {
+        //        Email: $('#email').val(),
+        //        Password: $('#password').val() ,
+        //        ConfirmPassword: $('#confirmpassword').val()
+        //    };
+
+        //    $.ajax({
+        //        type: 'POST',
+        //        url: '/api/Account/Register',
+        //        contentType: 'application/json; charset=utf-8',
+        //        data: JSON.stringify(data),
+        //        success: function (data) {
+        //            alert("Регистрация пройдена");
+        //        },
+        //        error: (function (er) {
+        //            alert(er.responseText)
+        //            console.log(er)
+        //        })
+        //    });
+        //});
+
+        var tokenKey = "tokenInfo";
+        $('#submitLogin').click(function (e) {
+            e.preventDefault();
+            var loginData = {
+                grant_type: 'password',
+                username: $('#emailLogin').val(),
+                password: $('#passwordLogin').val()
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/Token',
+                data: loginData,
+                success: function (data) {
+                    $('.userName').text(data.userName);
+                    $('.userInfo').css('display', 'block');
+                    $('.loginForm').css('display', 'none');
+                    // сохраняем в хранилище sessionStorage токен доступа
+                    localStorage.setItem(tokenKey, data.access_token);
+                    console.log(localStorage.getItem(tokenKey))
+                    alert('Вы зашли как ' + data.userName)
+                    // console.log(data.access_token);
+                },
+                error: function (data) {
+                    console.log(data)
+                    alert('При логине возникла ошибка ' + data.responseText);
+                }
+            });
+        });
+
+        $('#logOut').click(function (e) {
+            e.preventDefault();
+            sessionStorage.removeItem(tokenKey);
+            alert('Вы вышли')
+            location.reload()
+        });
+        $('#add').click((e) => {
+            console.log(localStorage.getItem(tokenKey))
+            e.preventDefault()
+            var data = {
+                name: $('#name').val()
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/api/aquafarm',
+                data: data,
+                success: (data) => {
+                    // location.reload()
+                },
+                fail: () => {
+                    alert('Не удалось')
+                }
+
+            })
+        })
+        $('#del').click(function (e) {
+            e.preventDefault()
+            var id = $(this).data('id')
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/aquafarm/' + id,
+                success: (data) => {
+                    alert('удалено ' + id)
+                    location.reload()
+                },
+                fail: (e) => {
+                    alert('Не удалось ' + e)
+                }
+
+            })
+        })
+    })
+</script>
