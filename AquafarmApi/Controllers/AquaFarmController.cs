@@ -18,20 +18,19 @@ namespace AquafarmApi.Controllers
     public class AquaFarmController : ApiController
     {
         Context db = new Context();
-        [Authorize]
         public HttpResponseMessage Get()
         {
             try
             {
                 var response = db.Purchases;
-                db.Dispose();
                 var json = JsonConvert.SerializeObject(response);
                 return Request.CreateResponse(HttpStatusCode.OK, json);
             }
             catch
             {
                 db.Dispose();
-                return null;
+                var json = "Ничего";
+                return Request.CreateResponse(HttpStatusCode.OK, json);
             }
         }
         [Authorize]

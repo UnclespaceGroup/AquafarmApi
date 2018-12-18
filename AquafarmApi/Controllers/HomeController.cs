@@ -40,16 +40,9 @@ namespace AquafarmApi.Controllers
         }
         //public ActionResult TestDb()
         //{
-        //    try
-        //    {
         //        Context db = new Context();
         //        IEnumerable<Purchase> purchases = db.Purchases.ToList();
         //        return View(purchases);
-        //    }
-        //    catch
-        //    {
-        //        return View("error");
-        //    }
         //}
         protected override void Dispose(bool disposing)
         {

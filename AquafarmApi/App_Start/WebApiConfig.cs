@@ -12,6 +12,7 @@ namespace AquafarmApi
     {
         public static void Register(HttpConfiguration config)
         {
+            // config.EnableCors();
             // Конфигурация и службы Web API
             // Настройка Web API для использования только проверки подлинности посредством маркера-носителя.
             config.SuppressDefaultHostAuthentication();
@@ -20,7 +21,7 @@ namespace AquafarmApi
             // Маршруты Web API
             config.MapHttpAttributeRoutes();
 
-            config.EnableCors();
+            
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

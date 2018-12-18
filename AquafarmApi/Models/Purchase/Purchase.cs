@@ -13,15 +13,16 @@ namespace AquafarmApi.Models.Purchase
         public string name { get; set; }
         public string surname { get; set; }
         public string phone { get; set; }
-        public DateTime date { get; set; }
+        public string date { get; set; }
         public string Email { get; set; }
         public string text { get; set; }
+        public string active { get; set; }
     }
     public class Comment
     {
         public int id { get; set; }
         public string name { get; set; }
-        public DateTime date { get; set; }
+        public string date { get; set; }
         public string text { get; set; }
     }
     public class Data
